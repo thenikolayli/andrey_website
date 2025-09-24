@@ -2,8 +2,9 @@
 @import 'tailwindcss';
 
 @theme {
-    --color-soundblue: #1b4ba0;
-    --color-soundred: #a71f23;
+    --color-sblue: hsl(218, 71%, 37%);
+    --color-sred: hsl(358, 69%, 39%);
+    --color-sblue-muted: hsl(218, 35%, 45%);
 }
 
 body {
