@@ -1,4 +1,7 @@
 // this is from the GSAP helper functions
+import {gsap} from 'gsap';
+import {Draggable} from "gsap/Draggable";
+import {InertiaPlugin} from "gsap/InertiaPlugin";
 
 export default function horizontalLoop(items, config) {
     let timeline;

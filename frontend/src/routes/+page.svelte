@@ -1,13 +1,17 @@
 <script>
-    // import horinzontalLoop from "$lib/horizontalLoop.js"
+    import horizontalLoop from "$lib/horizontalLoop.js";
     import {onMount} from "svelte";
     import {gsap} from "gsap";
     import {ScrollTrigger} from "gsap/ScrollTrigger";
+    import {Draggable} from "gsap/Draggable";
+    import {InertiaPlugin} from "gsap/InertiaPlugin";
 
     let landingPhoto
     let miniPhotoSection
 
     gsap.registerPlugin(ScrollTrigger)
+    gsap.registerPlugin(Draggable)
+    gsap.registerPlugin(InertiaPlugin)
     onMount(() => {
         document.title = "Andrey Li"
 
@@ -35,6 +39,23 @@
             },
             ease: "none"
         })
+
+        let activeElement
+        const cards = gsap.utils.toArray(".card")
+        const loop = horizontalLoop(cards, {
+            paused: true,
+            draggable: true,
+            center: true,
+            onChange: (element, index) => {
+                activeElement && activeElement.classList.remove("active")
+                element.classList.add("active")
+                activeElement = element
+            }
+        })
+
+        // setInterval(() => {
+        //     loop.next()
+        // }, 2000)
     })
 </script>
 
@@ -59,9 +80,9 @@
 </section>
 
 <section class="relative w-full h-screen bg-stone-100">
-    <div class="absolute w-full h-[90%] top-[10%] flex items-center justify-center space-x-12 p-6">
+    <div class="relative w-full h-[90%] top-[10%] flex items-center justify-start space-x-12 p-6 overflow-hidden">
 
-        <div class="card relative border-8 border-sblue w-full h-full">
+        <div class="card relative border-8 border-sblue w-full h-full flex-shrink-0">
             <div class="absolute left-0 bottom-0 w-full h-fit z-20 p-4">
                 <h1 class="text-2xl text-sblue">
                     <span class="font-semibold">
@@ -75,6 +96,22 @@
             </div>
             <div class="absolute left-0 top-0 w-full h-full z-10 bg-gradient-to-t from-black to-transparent to-80%"></div>
             <img src="/photos/onField1.png" alt="" class="object-cover w-full h-full">
+        </div>
+
+        <div class="card relative border-8 border-sblue w-full h-full flex-shrink-0">
+            <div class="absolute left-0 bottom-0 w-full h-fit z-20 p-4">
+                <h1 class="text-2xl text-sblue">
+                    <span class="font-semibold">
+                        2025, June
+                    </span>
+                    Title
+                </h1>
+                <p class="text-xl text-sblue-muted mt-2">
+                    Introduction about the athlete, about a paragraph long.
+                </p>
+            </div>
+            <div class="absolute left-0 top-0 w-full h-full z-10 bg-gradient-to-t from-black to-transparent to-80%"></div>
+            <img src="/photos/inCar.JPEG" alt="" class="object-cover w-full h-full">
         </div>
 
     </div>
