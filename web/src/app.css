@@ -10,3 +10,7 @@
 body {
     @apply font-[Inter] text-stone-900;
 }
+
+* {
+    @apply border-1;
+}

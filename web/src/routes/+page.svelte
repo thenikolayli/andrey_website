@@ -40,7 +40,7 @@
         const scaleFraction = 10; // scale down by x%
 
         gsap.to(landingPhoto, {
-            "--t": `${scaleFraction}%`,
+            "--t": `${scaleFraction * 2}%`,
             "--r": `${scaleFraction}%`,
             "--b": "20%", // hardcoded because its not important for positioning
             "--l": `${scaleFraction}%`,
@@ -61,7 +61,7 @@
 </script>
 
 <header
-    class="fixed h-[10%] bg-stone-100/40 backdrop-blur-sm p-4 text-3xl z-30 w-full shadow-lg flex items-center justify-between"
+    class="fixed h-[6vh] bg-stone-100/40 backdrop-blur-sm p-8 text-3xl z-30 w-full shadow-lg flex items-center justify-between"
 >
     <div>
         <span class="text-sblue">Andrey&nbsp;</span><span class="text-sred"
@@ -91,7 +91,7 @@
         bind:this={landingPhoto}
         src="/photos/onField7.png"
         alt=""
-        class="absolute top-[10%] w-screen h-[90vh] object-cover z-10"
+        class="absolute pt-[6vh] w-screen h-full object-cover z-10"
         style="clip-path: inset(var(--t) var(--r) var(--b) var(--l))"
     />
 </section>
@@ -100,7 +100,9 @@
     bind:this={miniPhotoSection}
     class="relative w-full h-screen bg-stone-100"
 >
-    <div class="absolute w-full h-[25%] p-4 bottom-0 left-0 flex flex-col">
+    <div
+        class="absolute w-full h-[25vh] py-4 px-8 bottom-0 left-0 flex flex-col"
+    >
         <h1 class="text-4xl text-sblue font-semibold">Andrey Li</h1>
         <p class="text-stone-600 text-2xl mt-2">
             Introduction about the athlete, about a paragraph long.
@@ -108,46 +110,45 @@
     </div>
 </section>
 
-<section class="relative w-full h-screen bg-stone-100">
+<section
+    class="relative w-full h-screen bg-stone-100 pt-[6vh] px-0 flex flex-col items-center justify-center"
+>
+    <header class="w-full font-semibold text-sblue text-4xl px-8 py-4">
+        Highlights
+    </header>
     <div
-        class="relative w-full h-[90%] top-[10%] flex items-center justify-start space-x-12 py-12 px-8 overflow-hidden"
+        class="relative w-full flex-1 flex items-center justify-start overflow-hidden pb-8 px-8 space-x-8"
     >
         <Carousel {cards} />
     </div>
 </section>
 
-<section class="relative w-full h-screen bg-stone-100">
-    <div
-        class="relative w-full p-4 h-[80%] top-[10%] flex flex-col items-center justify-center"
+<section
+    class="relative w-full h-screen bg-stone-100 pt-[6vh] flex flex-col items-center justify-center p-8"
+>
+    <img class="object-contain" src="/photos/withTrophy2.png" alt="" />
+    <h1 class="text-3xl text-sblue text-center font-semibold mt-2">
+        Follow my Instagram!
+    </h1>
+    <a
+        target="_blank"
+        href="https://instagram.com/theandreyli"
+        class="relative mx-auto w-fit h-fit mt-4 p-4 flex items-center justify-center"
     >
-        <img
-            class="object-contain w-[80%]"
-            src="/photos/withTrophy2.png"
-            alt=""
-        />
-        <h1 class="text-3xl text-sblue text-center font-semibold mt-2">
-            Follow my Instagram!
-        </h1>
-        <a
-            target="_blank"
-            href="https://instagram.com/theandreyli"
-            class="relative mx-auto w-fit h-fit mt-4 p-4 flex items-center justify-center"
+        <svg
+            class="relative z-10 w-[3em] h-[3em] mr-2"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            ><path
+                fill="var(--color-stone-200)"
+                d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4zm9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3"
+            /></svg
         >
-            <svg
-                class="relative z-10 w-[3em] h-[3em] mr-2"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                ><path
-                    fill="var(--color-stone-200)"
-                    d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4zm9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3"
-                /></svg
-            >
-            <h1 class="relative z-10 text-2xl text-stone-200">@theandreyli</h1>
-            <img
-                src="/Instagram_Gradient.png"
-                alt=""
-                class="absolute w-full h-full object-cover left-0 top-0"
-            />
-        </a>
-    </div>
+        <h1 class="relative z-10 text-2xl text-stone-200">@theandreyli</h1>
+        <img
+            src="/Instagram_Gradient.png"
+            alt=""
+            class="absolute w-full h-full object-cover left-0 top-0"
+        />
+    </a>
 </section>
