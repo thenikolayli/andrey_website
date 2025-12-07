@@ -11,6 +11,10 @@ body {
     @apply font-[Inter] text-stone-900;
 }
 
-* {
-    @apply border-1;
+button {
+    @apply cursor-pointer;
 }
+
+/** {
+    @apply border-1;
+}*/
