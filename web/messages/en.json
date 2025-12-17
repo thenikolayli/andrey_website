@@ -4,14 +4,16 @@
   "first_name": "Andrey",
   "last_name": "Li",
   "full_name": "Andrey Li",
-  "introduction": "Introduction about the athlete, about a paragraph long.",
+  "introduction": "Andrey is a soccer player that plays for Sound FC.",
   "highlights": "Highlights",
   "instagram": "Follow my Instagram!",
+  "the_team": "The Team",
+  "team_description": "Sound FC is a professional soccer team based in Seattle, Washington. The team competes in various leagues and tournaments.",
   "cards": {
     "card1": {
-      "title": "Card 1 Title",
-      "date": "June, 2025",
-      "description": "description"
+      "title": "Arena Sports",
+      "date": "June, 2021",
+      "description": "Andrey started playing soccer at the Arena Sports Skills Institute."
     },
     "card2": {
       "title": "Card 2 Title",

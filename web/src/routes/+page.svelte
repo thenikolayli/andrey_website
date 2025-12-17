@@ -35,13 +35,25 @@
             title: m["cards.card1.title"](),
             date: m["cards.card1.date"](),
             description: m["cards.card1.description"](),
-            src: "/photos/inCar.JPEG",
+            src: "/photos/skillsInstitute.JPEG",
         },
         {
             title: m["cards.card1.title"](),
             date: m["cards.card1.date"](),
             description: m["cards.card1.description"](),
-            src: "/photos/onField1.png",
+            src: "/photos/withMedal3.png",
+        },
+        {
+            title: m["cards.card1.title"](),
+            date: m["cards.card1.date"](),
+            description: m["cards.card1.description"](),
+            src: "/photos/withTeam.png",
+        },
+        {
+            title: m["cards.card1.title"](),
+            date: m["cards.card1.date"](),
+            description: m["cards.card1.description"](),
+            src: "/photos/withCoach2.png",
         },
     ];
 
@@ -51,7 +63,6 @@
     onMount(() => {
         document.title = "Andrey Li";
         addEventListener("click", handleClickOutside);
-        return () => removeEventListener("click", handleClickOutside);
 
         gsap.set(landingPhoto, {
             "--t": 0,
@@ -80,6 +91,8 @@
             },
             ease: "none",
         });
+
+        return () => removeEventListener("click", handleClickOutside);
     });
 
     const handleClickOutside = (event) => {
@@ -95,7 +108,7 @@
 >
     <section class="flex items-center justify-between h-[6vh] shrink-0">
         <div>
-            <span class="text-sblue mr-2">{m.first_name()}</span>
+            <span class="text-sblue mr-1">{m.first_name()}</span>
             <span class="text-sred">{m.last_name()}</span>
         </div>
         <button
@@ -124,15 +137,15 @@
     </section>
     <section class="w-full pt-4">
         <h1 class="text-sblue">Languages</h1>
-        <ul class="text-2xl mt-2">
+        <ul class="text-2xl mt-2 space-y-2">
             <li>
                 <button onclick={() => setLocale("en")}> English </button>
             </li>
             <li>
-                <button onclick={() => setLocale("es")}> Spanish </button>
+                <button onclick={() => setLocale("es")}> Español </button>
             </li>
             <li>
-                <button onclick={() => setLocale("ru")}> Russian </button>
+                <button onclick={() => setLocale("ru")}> Русский </button>
             </li>
         </ul>
     </section>
@@ -160,6 +173,10 @@
             {m.introduction()}
         </p>
     </div>
+
+    <hr
+        class="absolute bottom-2 w-[30%] inset-x-0 mx-auto text-stone-300 border-1"
+    />
 </section>
 
 <section
@@ -169,10 +186,42 @@
         {m.highlights()}
     </header>
     <div
-        class="relative w-full flex-1 flex items-center justify-start overflow-hidden pb-8 px-8 space-x-8"
+        class="relative w-full flex items-center justify-start overflow-hidden pb-8 px-8 space-x-8"
     >
-        <Carousel {cards} />
+        <Carousel {cards} id={"cards1"} />
     </div>
+
+    <hr
+        class="absolute bottom-2 w-[30%] inset-x-0 mx-auto text-stone-300 border-1"
+    />
+</section>
+
+<section
+    class="relative w-full h-screen bg-stone-100 pt-[6vh] px-0 flex flex-col items-center justify-center"
+>
+    <header class="w-full font-semibold text-sblue text-4xl px-8 py-4">
+        {m.the_team()}
+    </header>
+    <div
+        class="w-full h-[40%] flex items-center justify-start overflow-hidden px-8 space-x-8 pb-8"
+    >
+        <Carousel
+            cards={[
+                { src: "/photos/withTeam.png" },
+                { src: "/photos/withTeam2.png" },
+                { src: "/photos/withCoach4.png" },
+            ]}
+            photosOnly={true}
+            id={"cards2"}
+        />
+    </div>
+    <p class="text-2xl text-stone-600 mt-2 px-8">
+        {m.team_description()}
+    </p>
+
+    <hr
+        class="absolute bottom-2 w-[30%] inset-x-0 mx-auto text-stone-300 border-1"
+    />
 </section>
 
 <section
