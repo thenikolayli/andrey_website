@@ -5,31 +5,19 @@
     import { ScrollTrigger } from "gsap/ScrollTrigger";
     import { Draggable } from "gsap/Draggable";
     import { InertiaPlugin } from "gsap/InertiaPlugin";
-    import Carousel from "$lib/components/carousel.svelte";
     import { setLocale } from "$lib/paraglide/runtime";
     import { m } from "$lib/paraglide/messages.js";
 
     let openMenu = $state(false);
     let header;
-
-    $effect(() => {
-        if (openMenu) {
-            gsap.to(header, {
-                height: innerHeight * 0.35,
-                duration: 0.5,
-                ease: "power2.inOut",
-            });
-        } else {
-            gsap.to(header, {
-                height: innerHeight * 0.06,
-                duration: 0.5,
-                ease: "power2.inOut",
-            });
-        }
-    });
-
     let landingPhoto;
-    let miniPhotoSection;
+    let cardsLoop;
+    let teamCardsLoop;
+
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(Draggable);
+    gsap.registerPlugin(InertiaPlugin);
+
     const cards = [
         {
             title: m["cards.card1.title"](),
@@ -56,50 +44,85 @@
             src: "/photos/withCoach2.png",
         },
     ];
-
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.registerPlugin(Draggable);
-    gsap.registerPlugin(InertiaPlugin);
-    onMount(() => {
-        document.title = "Andrey Li";
-        addEventListener("click", handleClickOutside);
-
-        gsap.set(landingPhoto, {
-            "--t": 0,
-            "--r": 0,
-            "--b": 0,
-            "--l": 0,
-        });
-
-        const scaleFraction = 10; // scale down by x%
-
-        gsap.to(landingPhoto, {
-            "--t": `${scaleFraction * 2}%`,
-            "--r": `${scaleFraction}%`,
-            "--b": "20%", // hardcoded because its not important for positioning
-            "--l": `${scaleFraction}%`,
-            scale: (100 - scaleFraction) / 100,
-            y:
-                innerHeight -
-                landingPhoto.height * Math.pow(scaleFraction / 100, 2) -
-                landingPhoto.width * (scaleFraction / 100),
-            scrollTrigger: {
-                trigger: miniPhotoSection,
-                start: "top bottom",
-                end: "bottom bottom",
-                scrub: true,
-            },
-            ease: "none",
-        });
-
-        return () => removeEventListener("click", handleClickOutside);
-    });
+    const teamCards = [
+        { src: "/photos/withTeam.png" },
+        { src: "/photos/withTeam2.png" },
+        { src: "/photos/withCoach4.png" },
+    ];
 
     const handleClickOutside = (event) => {
         if (!header.contains(event.target)) {
             openMenu = false;
         }
     };
+
+    $effect(() => {
+        if (openMenu) {
+            gsap.to(header, {
+                height: innerHeight * 0.35,
+                duration: 0.5,
+                ease: "power2.inOut",
+            });
+        } else {
+            gsap.to(header, {
+                height: innerHeight * 0.06,
+                duration: 0.5,
+                ease: "power2.inOut",
+            });
+        }
+    });
+
+    onMount(() => {
+        document.title = "Andrey Li";
+        addEventListener("click", handleClickOutside);
+
+        gsap.fromTo(
+            landingPhoto,
+            { clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" },
+            {
+                clipPath: "polygon(0% 0%, 100% 0%, 100% 80%, 0% 80%)",
+                scale: 0.8,
+                scrollTrigger: {
+                    trigger: landingPhoto,
+                    start: "top top",
+                    end: "+=100%",
+                    scrub: true,
+                    pin: true,
+                    // markers: true,
+                },
+            },
+        );
+
+        let cardsActiveElement;
+        let cards = gsap.utils.toArray(".cards");
+        cardsLoop = horizontalLoop(cards, {
+            paused: true,
+            draggable: true,
+            center: true,
+            onChange: (element, index) => {
+                cardsActiveElement &&
+                    cardsActiveElement.classList.remove("active");
+                element.classList.add("active");
+                cardsActiveElement = element;
+            },
+        });
+
+        let teamCardsActiveElement;
+        let teamCards = gsap.utils.toArray(".teamCards");
+        teamCardsLoop = horizontalLoop(teamCards, {
+            paused: true,
+            draggable: true,
+            center: true,
+            onChange: (element, index) => {
+                teamCardsActiveElement &&
+                    teamCardsActiveElement.classList.remove("active");
+                element.classList.add("active");
+                teamCardsActiveElement = element;
+            },
+        });
+
+        return () => removeEventListener("click", handleClickOutside);
+    });
 </script>
 
 <header
@@ -151,20 +174,16 @@
     </section>
 </header>
 
-<section class="relative w-full h-screen bg-stone-100">
+<section class="relative h-screen bg-stone-100 w-full md:w-1/2 mx-auto">
     <img
         bind:this={landingPhoto}
         src="/photos/onField7.png"
         alt=""
         class="absolute pt-[6vh] w-screen h-full object-cover z-10"
-        style="clip-path: inset(var(--t) var(--r) var(--b) var(--l))"
     />
 </section>
 
-<section
-    bind:this={miniPhotoSection}
-    class="relative w-full h-screen bg-stone-100"
->
+<section class="relative h-screen bg-stone-100 w-full md:w-1/2 mx-auto">
     <div
         class="absolute w-full h-[25vh] py-4 px-8 bottom-0 left-0 flex flex-col"
     >
@@ -180,15 +199,89 @@
 </section>
 
 <section
-    class="relative w-full h-screen bg-stone-100 pt-[6vh] px-0 flex flex-col items-center justify-center"
+    class="relative h-screen bg-stone-100 pt-[6vh] px-0 flex flex-col items-center justify-center w-full md:w-1/2 mx-auto"
 >
     <header class="w-full font-semibold text-sblue text-4xl px-8 py-4">
         {m.highlights()}
     </header>
     <div
-        class="relative w-full flex items-center justify-start overflow-hidden pb-8 px-8 space-x-8"
+        class="relative w-full flex items-center overflow-hidden pb-5 px-8 gap-8 md:gap-12"
     >
-        <Carousel {cards} id={"cards1"} />
+        {#each cards as card}
+            <div
+                class="relative cards shadow-lg shadow-black/25 w-full h-full flex flex-col flex-shrink-0"
+            >
+                <div class="relative w-full h-[60%]">
+                    <img
+                        src={card.src}
+                        alt=""
+                        class="object-cover w-full h-full"
+                        style="clip-path: polygon(0 0, 100% 0, 100% 100%, 60% 100%, 50% 90%, 0 90%)"
+                    />
+                    <h2
+                        class="absolute bottom-0 left-4 text-2xl text-sblue-muted"
+                    >
+                        {card.date}
+                    </h2>
+                </div>
+                <div class="px-4 pt-2 flex-1">
+                    <h1 class="text-3xl text-sblue font-semibold">
+                        {card.title}
+                    </h1>
+                    <p class="text-2xl text-stone-600">
+                        {card.description}
+                    </p>
+                </div>
+            </div>
+        {/each}
+    </div>
+    <div class="w-full flex justify-between px-8">
+        <button
+            class="w-10 h-10 text-sred"
+            onclick={() =>
+                cardsLoop.previous({ duration: 0.4, ease: "power2.out" })}
+            aria-label="Previous card"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                ><g
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    ><path d="M19 12h-13.5" /><path
+                        d="M5 12l5 5M5 12l5 -5"
+                    /></g
+                ></svg
+            >
+        </button>
+        <button
+            class="w-10 h-10 text-sred"
+            onclick={() =>
+                cardsLoop.next({ duration: 0.4, ease: "power2.out" })}
+            aria-label="Next card"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                ><g
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    ><path d="M5 12h13.5" /><path
+                        d="M19 12l-5 5M19 12l-5 -5"
+                    /></g
+                ></svg
+            >
+        </button>
     </div>
 
     <hr
@@ -197,25 +290,71 @@
 </section>
 
 <section
-    class="relative w-full h-screen bg-stone-100 pt-[6vh] px-0 flex flex-col items-center justify-center"
+    class="relative h-screen bg-stone-100 pt-[6vh] px-0 flex flex-col items-center justify-center w-full md:w-1/2 mx-auto"
 >
     <header class="w-full font-semibold text-sblue text-4xl px-8 py-4">
         {m.the_team()}
     </header>
     <div
-        class="w-full h-[40%] flex items-center justify-start overflow-hidden px-8 space-x-8 pb-8"
+        class="relative w-full h-[40%] flex items-center justify-start overflow-hidden pb-5 px-8 gap-8 md:gap-12"
     >
-        <Carousel
-            cards={[
-                { src: "/photos/withTeam.png" },
-                { src: "/photos/withTeam2.png" },
-                { src: "/photos/withCoach4.png" },
-            ]}
-            photosOnly={true}
-            id={"cards2"}
-        />
+        {#each teamCards as card}
+            <div
+                class="relative teamCards shadow-lg shadow-black/25 w-full h-full flex flex-col flex-shrink-0"
+            >
+                <img src={card.src} alt="" class="object-cover w-full h-full" />
+            </div>
+        {/each}
     </div>
-    <p class="text-2xl text-stone-600 mt-2 px-8">
+    <div class="w-full flex justify-between px-8">
+        <button
+            class="w-10 h-10 text-sred"
+            onclick={() =>
+                teamCardsLoop.previous({ duration: 0.4, ease: "power2.out" })}
+            aria-label="Previous card"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                ><g
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    ><path d="M19 12h-13.5" /><path
+                        d="M5 12l5 5M5 12l5 -5"
+                    /></g
+                ></svg
+            >
+        </button>
+        <button
+            class="w-10 h-10 text-sred"
+            onclick={() =>
+                teamCardsLoop.next({ duration: 0.4, ease: "power2.out" })}
+            aria-label="Next card"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                ><g
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    ><path d="M5 12h13.5" /><path
+                        d="M19 12l-5 5M19 12l-5 -5"
+                    /></g
+                ></svg
+            >
+        </button>
+    </div>
+    <p class="text-2xl text-stone-600 px-8 mt-2">
         {m.team_description()}
     </p>
 
@@ -225,9 +364,13 @@
 </section>
 
 <section
-    class="relative w-full h-screen bg-stone-100 pt-[6vh] flex flex-col items-center justify-center p-8"
+    class="relative h-screen bg-stone-100 pt-[6vh] flex flex-col items-center justify-center p-8 w-full md:w-1/2 mx-auto"
 >
-    <img class="object-contain" src="/photos/withTrophy2.png" alt="" />
+    <img
+        class="object-contain w-full h-[60%]"
+        src="/photos/withTrophy2.png"
+        alt=""
+    />
     <h1 class="text-3xl text-sblue text-center font-semibold mt-2">
         {m.instagram()}
     </h1>
