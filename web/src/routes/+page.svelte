@@ -5,8 +5,6 @@
     import { ScrollTrigger } from "gsap/ScrollTrigger";
     import { Draggable } from "gsap/Draggable";
     import { InertiaPlugin } from "gsap/InertiaPlugin";
-    import { setLocale } from "$lib/paraglide/runtime";
-    import { m } from "$lib/paraglide/messages.js";
 
     let openMenu = $state(false);
     let header;
@@ -20,27 +18,27 @@
 
     const cards = [
         {
-            title: m["cards.card1.title"](),
-            date: m["cards.card1.date"](),
-            description: m["cards.card1.description"](),
+            title: "Card 1",
+            date: "Card 2",
+            description: "Card description",
             src: "/photos/skillsInstitute.JPEG",
         },
         {
-            title: m["cards.card1.title"](),
-            date: m["cards.card1.date"](),
-            description: m["cards.card1.description"](),
+            title: "Card 1",
+            date: "Card 2",
+            description: "Card description",
             src: "/photos/withMedal3.png",
         },
         {
-            title: m["cards.card1.title"](),
-            date: m["cards.card1.date"](),
-            description: m["cards.card1.description"](),
+            title: "Card 1",
+            date: "Card 2",
+            description: "Card description",
             src: "/photos/withTeam.png",
         },
         {
-            title: m["cards.card1.title"](),
-            date: m["cards.card1.date"](),
-            description: m["cards.card1.description"](),
+            title: "Card 1",
+            date: "Card 2",
+            description: "Card description",
             src: "/photos/withCoach2.png",
         },
     ];
@@ -131,8 +129,8 @@
 >
     <section class="flex items-center justify-between h-[6vh] shrink-0">
         <div>
-            <span class="text-sblue mr-1">{m.first_name()}</span>
-            <span class="text-sred">{m.last_name()}</span>
+            <span class="text-sblue mr-1">Andrey</span>
+            <span class="text-sred">Li</span>
         </div>
         <button
             aria-label="Open language menu"
@@ -162,13 +160,19 @@
         <h1 class="text-sblue">Languages</h1>
         <ul class="text-2xl mt-2 space-y-2">
             <li>
-                <button onclick={() => setLocale("en")}> English </button>
+                <button onclick={() => console.log("English")}>
+                    English
+                </button>
             </li>
             <li>
-                <button onclick={() => setLocale("es")}> Español </button>
+                <button onclick={() => console.log("Spanish")}>
+                    Español
+                </button>
             </li>
             <li>
-                <button onclick={() => setLocale("ru")}> Русский </button>
+                <button onclick={() => console.log("Russian")}>
+                    Русский
+                </button>
             </li>
         </ul>
     </section>
@@ -187,9 +191,9 @@
     <div
         class="absolute w-full h-[25vh] py-4 px-8 bottom-0 left-0 flex flex-col"
     >
-        <h1 class="text-4xl text-sblue font-semibold">{m.full_name()}</h1>
+        <h1 class="text-4xl text-sblue font-semibold">Andrey Li</h1>
         <p class="text-stone-600 text-2xl mt-2">
-            {m.introduction()}
+            Andrey is a soccer player that plays for Sound FC.
         </p>
     </div>
 
@@ -202,7 +206,7 @@
     class="relative h-screen bg-stone-100 pt-[6vh] px-0 flex flex-col items-center justify-center w-full md:w-1/2 mx-auto"
 >
     <header class="w-full font-semibold text-sblue text-4xl px-8 py-4">
-        {m.highlights()}
+        Highlights
     </header>
     <div
         class="relative w-full flex items-center overflow-hidden pb-5 px-8 gap-8 md:gap-12"
@@ -293,7 +297,7 @@
     class="relative h-screen bg-stone-100 pt-[6vh] px-0 flex flex-col items-center justify-center w-full md:w-1/2 mx-auto"
 >
     <header class="w-full font-semibold text-sblue text-4xl px-8 py-4">
-        {m.the_team()}
+        The Team
     </header>
     <div
         class="relative w-full h-[40%] flex items-center justify-start overflow-hidden pb-5 px-8 gap-8 md:gap-12"
@@ -355,7 +359,7 @@
         </button>
     </div>
     <p class="text-2xl text-stone-600 px-8 mt-2">
-        {m.team_description()}
+        Sound FC is a football club based in Seattle, Washington.
     </p>
 
     <hr
@@ -372,7 +376,7 @@
         alt=""
     />
     <h1 class="text-3xl text-sblue text-center font-semibold mt-2">
-        {m.instagram()}
+        Follow my Instagram
     </h1>
     <a
         target="_blank"
